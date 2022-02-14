@@ -2,6 +2,20 @@
 インスタグラムの投稿をハッシュタグから取得していいねをするシステムです。
 
 # 実行方法
+1. 仮想環境を構築します。
+```
+python -m venv venv
+```
+
+2. 作成した仮想環境をアクティベートします。
+```
+source venv/bin/activate
+```
+
+3. 関連ライブラリのインストール
+```
+pip install -r requirements.txt
+```
 
 実行時に下記のパラメータを入れてください
 - username (-u) : Your Instagram Username
