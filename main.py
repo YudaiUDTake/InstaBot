@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 import argparse
 import logging
@@ -17,42 +20,43 @@ class InstaBot():
         self.login(username, password)
     
     def login(self, username_ig, password_ig):
-        time.sleep(4)
-        self.__driver.find_element_by_name('username').send_keys(username_ig)
-        self.__driver.find_element_by_name('password').send_keys(password_ig)
-        time.sleep(5)
-        self.__driver.find_element_by_class_name('L3NKy       ').click()
-        time.sleep(3)
+        username = WebDriverWait(self.__driver, 10).until(EC.element_to_be_clickable((By.NAME, "username")))
+        password = WebDriverWait(self.__driver, 10).until(EC.element_to_be_clickable((By.NAME, "password")))
+        
+        username.clear()
+        username.send_keys(username_ig)
+        password.clear()
+        password.send_keys(password_ig)
+        
+        login_button = WebDriverWait(self.__driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'L3NKy       ')))
+        login_button.click()
     
     def like(self, keyword, number):
         self.__search(keyword)
         time.sleep(5)
         try:
             time.sleep(3)
-            self.__driver.find_elements_by_class_name('_9AhH0')[10].click()
-            self.__driver.find_element_by_class_name('fr66n').click()
+            self.__driver.find_elements(By.CLASS_NAME, '_9AhH0')[10].click()
+            self.__driver.find_element(By.CLASS_NAME, 'fr66n').click()
 
         except WebDriverException:
             return
         
         for i in range(random.randint(int(number)-50, int(number)+50)):
             try:
-                self.__driver.find_element_by_class_name('l8mY4').click()
+                self.__driver.find_element(By.CLASS_NAME, 'l8mY4').click()
                 time.sleep(random.randint(random.randint(15, 18), random.randint(20, 22)))
             except:
                 pass
             
             try:
-                self.__driver.find_element_by_class_name('fr66n').click()
+                self.__driver.find_element(By.CLASS_NAME, 'fr66n').click()
                 time.sleep(5)
             except:
                 pass
             
-        
-    
     def __search(self, keyword):
         self.__driver.get("https://www.instagram.com/explore/tags/" + keyword)
-        
         
 
 def main():
